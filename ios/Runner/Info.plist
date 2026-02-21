@@ -53,10 +53,14 @@
 	<string>We don't track you. This permission is required by App Store guidelines.</string>
 	<!-- Privacy - Photo Library Usage Description -->
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Save motivational quotes as images to your photo library.</string>
+	<string>DailyMotivate needs access to your photo library to save and share motivational quote images.</string>
 	<!-- Privacy - Camera Usage Description -->
 	<key>NSCameraUsageDescription</key>
-	<string>Capture and share motivational quote images.</string>
+	<string>DailyMotivate needs camera access to create custom quote images.</string>
+	<key>UIAccessibilityTraits</key>
+	<string>UIAccessibilityTraitButton</string>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 	<!-- App Transport Security -->
 	<key>NSAppTransportSecurity</key>
 	<dict>

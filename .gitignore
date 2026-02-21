@@ -46,3 +46,17 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 android/app/.cxx
+
+# iOS Signing & Certificates (NEVER commit these!)
+*.p12
+*.mobileprovision
+*.cer
+*.certSigningRequest
+ios/signing/*.p12
+ios/signing/*.mobileprovision
+
+# Android Signing (NEVER commit these!)
+*.jks
+*.keystore
+android/key.properties
+android/keystore/*.jks

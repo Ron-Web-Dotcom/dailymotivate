@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import './cloud_sync_service.dart';
+import './logger_service.dart';
 
 /// Service for managing favorite quotes with cloud sync
 class FavoritesService {
@@ -25,7 +26,7 @@ class FavoritesService {
       // Fallback to local storage
       return await _getLocalFavorites();
     } catch (error) {
-      print('Error getting favorites: $error');
+      LoggerService.error('Error getting favorites', error: error);
       return await _getLocalFavorites();
     }
   }
@@ -72,7 +73,7 @@ class FavoritesService {
       try {
         await CloudSyncService.instance.addFavoriteToCloud(favoriteQuote);
       } catch (error) {
-        print('Error syncing favorite to cloud: $error');
+        LoggerService.error('Error syncing favorite to cloud', error: error);
       }
     }
   }
@@ -93,7 +94,7 @@ class FavoritesService {
       try {
         await CloudSyncService.instance.removeFavoriteFromCloud(quoteId);
       } catch (error) {
-        print('Error removing favorite from cloud: $error');
+        LoggerService.error('Error removing favorite from cloud', error: error);
       }
     }
   }
@@ -110,7 +111,7 @@ class FavoritesService {
       final favorites = await _getLocalFavorites();
       return favorites.any((fav) => fav['id'] == quoteId);
     } catch (error) {
-      print('Error checking favorite status: $error');
+      LoggerService.error('Error checking favorite status', error: error);
       final favorites = await _getLocalFavorites();
       return favorites.any((fav) => fav['id'] == quoteId);
     }
@@ -137,7 +138,10 @@ class FavoritesService {
       try {
         await CloudSyncService.instance.clearFavoritesFromCloud();
       } catch (error) {
-        print('Error clearing favorites from cloud: $error');
+        LoggerService.error(
+          'Error clearing favorites from cloud',
+          error: error,
+        );
       }
     }
 
@@ -184,7 +188,10 @@ class FavoritesService {
           await CloudSyncService.instance.removeFavoriteFromCloud(quoteId);
         }
       } catch (error) {
-        print('Error removing favorites from cloud: $error');
+        LoggerService.error(
+          'Error removing favorites from cloud',
+          error: error,
+        );
       }
     }
   }
@@ -200,11 +207,14 @@ class FavoritesService {
         try {
           await CloudSyncService.instance.addFavoriteToCloud(favorite);
         } catch (error) {
-          print('Error syncing favorite to cloud: $error');
+          LoggerService.error('Error syncing favorite to cloud', error: error);
         }
       }
     } catch (error) {
-      print('Error syncing local favorites to cloud: $error');
+      LoggerService.error(
+        'Error syncing local favorites to cloud',
+        error: error,
+      );
     }
   }
 }

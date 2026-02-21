@@ -131,6 +131,65 @@ class _AboutSectionWidgetState extends State<AboutSectionWidget> {
     }
   }
 
+  Widget _buildAboutSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildInfoRow(
+          context: context,
+          icon: 'info',
+          title: 'App Version',
+          subtitle: '1.0.0 (Build 1)',
+          onTap: null,
+        ),
+        SizedBox(height: 1.h),
+        _buildInfoRow(
+          context: context,
+          icon: 'privacy_tip',
+          title: 'Privacy Policy',
+          subtitle: 'View our privacy policy',
+          onTap: () => _launchPrivacyPolicy(context),
+        ),
+        SizedBox(height: 1.h),
+        _buildInfoRow(
+          context: context,
+          icon: 'gavel',
+          title: 'Terms of Service',
+          subtitle: 'View terms and conditions',
+          onTap: () => _launchTermsOfService(),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _launchTermsOfService() async {
+    const url = 'https://ron-web-dotcom.github.io/legal-page/terms.html';
+    try {
+      final uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Could not open Terms of Service'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error opening Terms of Service'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

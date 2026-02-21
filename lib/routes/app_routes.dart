@@ -5,6 +5,7 @@ import '../presentation/settings_screen/settings_screen.dart';
 import '../presentation/favorites_screen/favorites_screen.dart';
 import '../presentation/home_screen/home_screen.dart';
 import '../presentation/categories_screen/categories_screen.dart';
+import '../presentation/onboarding_screen/onboarding_screen.dart';
 
 class AppRoutes {
   // TODO: Add your routes here
@@ -15,8 +16,9 @@ class AppRoutes {
   static const String favorites = '/favorites-screen';
   static const String home = '/home-screen';
   static const String categories = '/categories-screen';
+  static const String onboardingScreen = '/onboarding-screen';
 
-  static Map<String, WidgetBuilder> routes = {
+  static Map<String, WidgetBuilder> get routes => {
     initial: (context) => const SplashScreen(),
     splash: (context) => const SplashScreen(),
     categoryDetail: (context) => const CategoryDetailScreen(),
@@ -24,6 +26,7 @@ class AppRoutes {
     favorites: (context) => const FavoritesScreen(),
     home: (context) => const HomeScreen(),
     categories: (context) => const CategoriesScreen(),
+    onboardingScreen: (context) => const OnboardingScreen(),
     // TODO: Add your other routes here
   };
 }

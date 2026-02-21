@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
-import '../../widgets/custom_icon_widget.dart';
+import '../../services/onboarding_service.dart';
 
 /// Splash Screen - Branded app launch with offline-first database initialization
 ///
@@ -31,6 +31,7 @@ class _SplashScreenState extends State<SplashScreen>
   String _statusMessage = 'Initializing...';
   int _retryCount = 0;
   static const int _maxRetries = 3;
+  final OnboardingService _onboardingService = OnboardingService();
 
   @override
   void initState() {
@@ -112,6 +113,21 @@ class _SplashScreenState extends State<SplashScreen>
       }
       await Future.delayed(Duration(seconds: _retryCount));
       _initializeApp();
+    }
+  }
+
+  /// Navigate to appropriate screen after initialization
+  Future<void> _navigateToNextScreen() async {
+    if (!mounted) return;
+
+    // Check if onboarding is needed
+    final shouldShowOnboarding = await _onboardingService
+        .shouldShowOnboarding();
+
+    if (shouldShowOnboarding) {
+      Navigator.of(context).pushReplacementNamed(AppRoutes.onboardingScreen);
+    } else {
+      Navigator.of(context).pushReplacementNamed(AppRoutes.home);
     }
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import './cloud_sync_service.dart';
+import './logger_service.dart';
 
 class ThemeService extends ChangeNotifier {
   static final ThemeService _instance = ThemeService._internal();
@@ -34,7 +35,7 @@ class ThemeService extends ChangeNotifier {
       _themeMode = _parseThemeMode(themeModeString);
       notifyListeners();
     } catch (error) {
-      print('Error initializing theme: $error');
+      LoggerService.error('Error initializing theme', error: error);
       _themeMode = ThemeMode.system;
       notifyListeners();
     }
@@ -50,12 +51,12 @@ class ThemeService extends ChangeNotifier {
     // Sync to cloud if authenticated
     if (CloudSyncService.instance.isAuthenticated) {
       try {
-        final currentSettings =
-            await CloudSyncService.instance.getSettingsFromCloud() ?? {};
+        final currentSettings = await CloudSyncService.instance
+            .getSettingsFromCloud() ?? {}; // Add this null check with default empty map
         currentSettings['theme_mode'] = mode;
         await CloudSyncService.instance.updateSettingsInCloud(currentSettings);
       } catch (error) {
-        print('Error syncing theme to cloud: $error');
+        LoggerService.error('Error syncing theme to cloud', error: error);
       }
     }
   }
@@ -90,7 +91,7 @@ class ThemeService extends ChangeNotifier {
       currentSettings['theme_mode'] = localTheme;
       await CloudSyncService.instance.updateSettingsInCloud(currentSettings);
     } catch (error) {
-      print('Error syncing theme to cloud: $error');
+      LoggerService.error('Error syncing theme to cloud', error: error);
     }
   }
 }

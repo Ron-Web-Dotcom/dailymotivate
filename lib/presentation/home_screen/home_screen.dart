@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../routes/app_routes.dart';
 import '../../widgets/custom_bottom_bar.dart';
+import '../../widgets/network_status_banner.dart';
 import './home_screen_initial_page.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,26 +27,33 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Navigator(
-        key: navigatorKey,
-        initialRoute: '/home-screen',
-        onGenerateRoute: (settings) {
-          switch (settings.name) {
-            case '/home-screen' || '/':
-              return MaterialPageRoute(
-                builder: (context) => const HomeScreenInitialPage(),
-                settings: settings,
-              );
-            default:
-              if (AppRoutes.routes.containsKey(settings.name)) {
-                return MaterialPageRoute(
-                  builder: AppRoutes.routes[settings.name]!,
-                  settings: settings,
-                );
-              }
-              return null;
-          }
-        },
+      body: Column(
+        children: [
+          const NetworkStatusBanner(),
+          Expanded(
+            child: Navigator(
+              key: navigatorKey,
+              initialRoute: '/home-screen',
+              onGenerateRoute: (settings) {
+                switch (settings.name) {
+                  case '/home-screen' || '/':
+                    return MaterialPageRoute(
+                      builder: (context) => const HomeScreenInitialPage(),
+                      settings: settings,
+                    );
+                  default:
+                    if (AppRoutes.routes.containsKey(settings.name)) {
+                      return MaterialPageRoute(
+                        builder: AppRoutes.routes[settings.name]!,
+                        settings: settings,
+                      );
+                    }
+                    return null;
+                }
+              },
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: CustomBottomBar(
         currentIndex: currentIndex,

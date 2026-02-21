@@ -218,7 +218,22 @@ class _HomeScreenInitialPageState extends State<HomeScreenInitialPage> {
                 itemBuilder: (context, index) {
                   return QuoteCardWidget(
                     quote: _quotes[index],
-                    isRefreshing: _isRefreshing,
+                    onNext: () {
+                      if (_currentQuoteIndex < _quotes.length - 1) {
+                        _pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      }
+                    },
+                    onPrevious: () {
+                      if (_currentQuoteIndex > 0) {
+                        _pageController.previousPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      }
+                    },
                   );
                 },
               ),
